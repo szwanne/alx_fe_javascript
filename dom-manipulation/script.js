@@ -210,6 +210,50 @@ window.onload = function () {
     filterQuotes();
   }
 
+  function addQuote() {
+    const newText = document.getElementById("newQuoteText").value.trim();
+    const newCategory = document
+      .getElementById("newQuoteCategory")
+      .value.trim();
+
+    if (newText && newCategory) {
+      const newQuote = { text: newText, category: newCategory };
+      quotes.push(newQuote);
+      saveQuotes();
+      populateCategories();
+      postQuoteToServer(newQuote); // ✅ POST to mock server
+
+      document.getElementById("newQuoteText").value = "";
+      document.getElementById("newQuoteCategory").value = "";
+      alert("Quote added and posted to server!");
+    } else {
+      alert("Both quote and category are required.");
+    }
+  }
+
+  // POST a new quote to mock server (simulation)
+  async function postQuoteToServer(quote) {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(quote),
+        }
+      );
+
+      const result = await response.json();
+      console.log("Quote posted to server (simulated):", result);
+      showSyncStatus("Quote posted to server (simulated).");
+    } catch (error) {
+      console.error("Failed to post quote:", error);
+      showSyncStatus("Error posting quote to server.");
+    }
+  }
+
   // Initial sync and schedule periodic sync
   syncWithServer();
   setInterval(syncWithServer, 30000);
