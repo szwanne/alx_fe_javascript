@@ -147,7 +147,7 @@ async function fetchQuotesFromServer() {
 }
 
 // ✅ SYNC + CONFLICT RESOLUTION
-async function syncWithServer() {
+async function syncQuotes() {
   const serverQuotes = await fetchQuotesFromServer();
 
   let hasConflict = false;
@@ -255,6 +255,6 @@ window.onload = function () {
   }
 
   // Initial sync and schedule periodic sync
-  syncWithServer();
-  setInterval(syncWithServer, 30000);
+  syncQuotes();
+  setInterval(syncQuotes, 30000);
 };
