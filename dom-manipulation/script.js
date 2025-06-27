@@ -135,7 +135,7 @@ function importFromJsonFile(event) {
 }
 
 // ----------- Server Sync Simulation -------------
-function fetchServerQuotes() {
+function fetchQuotesFromServer() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -154,7 +154,7 @@ function fetchServerQuotes() {
 }
 
 async function syncWithServer() {
-  const serverQuotes = await fetchServerQuotes();
+  const serverQuotes = await fetchQuotesFromServer();
 
   let hasConflict = false;
   const newQuotes = [];
