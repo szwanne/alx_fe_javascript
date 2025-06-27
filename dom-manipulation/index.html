@@ -4,22 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Quote Generator</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      #syncStatus {
+        padding: 10px;
+        background: #e6f7ff;
+        border-left: 4px solid #1890ff;
+        margin-bottom: 15px;
+        display: none;
+      }
+      blockquote {
+        font-size: 1.2em;
+        color: #333;
+      }
+      select,
+      input,
+      button {
+        margin: 5px;
+        padding: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>Dynamic Quote Generator</h1>
+
+    <!-- Sync Status Banner -->
+    <div id="syncStatus"></div>
 
     <!-- Category Filter -->
     <select id="categoryFilter" onchange="filterQuotes()">
       <option value="all">All Categories</option>
     </select>
 
-    <!-- Quote Display -->
-    <div id="quoteDisplay"></div>
+    <!-- Display Quote -->
+    <div id="quoteDisplay" style="margin: 20px 0"></div>
 
-    <!-- Form will be inserted here -->
+    <!-- Add Quote Form -->
     <div id="quoteFormContainer"></div>
 
-    <!-- Control Buttons -->
+    <!-- Buttons -->
     <button id="newQuote">Show New Quote</button>
     <button onclick="exportToJsonFile()">Export Quotes (JSON)</button>
     <input
@@ -28,7 +54,5 @@
       accept=".json"
       onchange="importFromJsonFile(event)"
     />
-
-    <script src="script.js"></script>
   </body>
 </html>
