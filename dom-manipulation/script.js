@@ -175,7 +175,7 @@ async function syncQuotes() {
     showSyncStatus(
       hasConflict
         ? "Conflicts resolved using server data."
-        : "New quotes synced from server."
+        : "Quotes synced with server!"
     );
   }
 }
