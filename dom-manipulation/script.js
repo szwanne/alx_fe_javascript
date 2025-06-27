@@ -36,9 +36,9 @@ function filterQuotes() {
     const randomIndex = Math.floor(Math.random() * filtered.length);
     const quote = filtered[randomIndex];
     quoteDisplay.innerHTML = `
-          <blockquote>"${quote.text}"</blockquote>
-          <p><strong>Category:</strong> ${quote.category}</p>
-        `;
+      <blockquote>"${quote.text}"</blockquote>
+      <p><strong>Category:</strong> ${quote.category}</p>
+    `;
     sessionStorage.setItem("lastQuote", JSON.stringify(quote));
   } else {
     quoteDisplay.innerHTML = "<p>No quotes found in this category.</p>";
@@ -134,25 +134,19 @@ function importFromJsonFile(event) {
   fileReader.readAsText(event.target.files[0]);
 }
 
-// ----------- Server Sync Simulation -------------
-function fetchQuotesFromServer() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { text: "Simplicity is the soul of efficiency.", category: "Tech" },
-        {
-          text: "Do not be afraid to give up the good to go for the great.",
-          category: "Motivation",
-        },
-        {
-          text: "Life is 10% what happens to us and 90% how we react to it.",
-          category: "Life",
-        },
-      ]);
-    }, 1500);
-  });
+// ✅ FETCH QUOTES FROM MOCK API (JSONPlaceholder)
+async function fetchQuotesFromServer() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const data = await response.json();
+
+  // Convert first 5 posts into quotes with mock categories
+  return data.slice(0, 5).map((post) => ({
+    text: post.title,
+    category: ["Life", "Tech", "Motivation"][post.id % 3],
+  }));
 }
 
+// ✅ SYNC + CONFLICT RESOLUTION
 async function syncWithServer() {
   const serverQuotes = await fetchQuotesFromServer();
 
@@ -186,6 +180,7 @@ async function syncWithServer() {
   }
 }
 
+// ✅ UI ALERT FOR SYNC STATUS
 function showSyncStatus(message) {
   const statusDiv = document.getElementById("syncStatus");
   statusDiv.textContent = message;
@@ -196,7 +191,7 @@ function showSyncStatus(message) {
   }, 4000);
 }
 
-// -------------- App Start ----------------
+// ✅ INITIALIZATION
 window.onload = function () {
   loadQuotes();
   createAddQuoteForm();
@@ -208,9 +203,9 @@ window.onload = function () {
   if (lastQuote) {
     const quote = JSON.parse(lastQuote);
     document.getElementById("quoteDisplay").innerHTML = `
-          <blockquote>"${quote.text}"</blockquote>
-          <p><strong>Category:</strong> ${quote.category}</p>
-        `;
+      <blockquote>"${quote.text}"</blockquote>
+      <p><strong>Category:</strong> ${quote.category}</p>
+    `;
   } else {
     filterQuotes();
   }
